@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JS-DOM-Day3</title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<style>
+  /* Initial style for the element */
+  .colored-element {
+    color: black;
+  }
+
+  /* Style when the mouse hovers over the element */
+  .colored-element:hover {
+    color: red; /* Change the color to your preferred one */
+  }
+</style>
+</head>
+<body>
+  <h1>https://github.com/rvsp/HTML-CSS/blob/master/Mini-tasks/003-JS-DOM.md</h1>
+<h2>1.Color a span/div element content when a user moves the mouse over the element.</h2>
+<span class="colored-element">Color a span element content when a user moves the mouse over the element.</span>
+<!-- or -->
+<div class="colored-element">Color a div element content when a user moves the mouse over the element.</div><br>
+<h2>2.Use prompt to read a value from user and display it in the span element.</h2>
+
+<input type="text" id="userInput">
+<button onclick="displayValue()">Display</button>
+<span id="displaySpan"></span><br>
+<h2>3.Display the mouse X and Y coordinates in a <span> tag when you click on a tag which contains a paragraph.</h2><br>
+
+<h1 onclick="showMouseCoordinates(event)">Click me!</h1>
+<p>Click the above heading to display mouse coordinates:</p>
+<span id="coordinatesSpan"></span><br>
+
+<h2>4.Write a Javascript code for character counts in the textarea.</h2>
+
+<textarea id="textInput" rows="4" cols="50"></textarea>
+<span id="charCount">0</span> characters
+<br>
+ <h2>5.Decimal to Binary and Hexadecimal Converter</h2>
+    <label for="decimalNumber">Enter a decimal number:</label>
+    <input type="number" id="decimalNumber">
+    <button onclick="convert()">Convert</button>
+    <br>
+    <p>Binary: <span id="binaryResult"></span></p>
+    <p>Hexadecimal: <span id="hexadecimalResult"></span></p>
+    <br>
+    <h2>6.With Javascript write a simple from validation</h2>
+     <h2>Registration Form</h2>
+    <form onsubmit="return validateForm()">
+        <label for="name">Name:</label>
+        <input type="text" id="name">
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password">
+        <br>
+        <input type="submit" value="Submit">
+    </form><br>
+
+     <h2>7.Full Screen Mode Example</h2>
+    <button onclick="enterFullscreen()">Enter Full Screen</button>
+    <button onclick="exitFullscreen()">Exit Full Screen</button><br>
+
+     <h2>8.Press any key on your keyboard</h2><br>
+      <h2>9.Move the cursor over the content to edit</h2>
+    <div class="editable-content" contenteditable="true">
+        This content can be edited by moving the cursor over it.
+    </div>
+
+<script type="text/javascript">
+  
+function displayValue() {
+  const userInput = document.getElementById('userInput').value;
+  document.getElementById('displaySpan').innerText = userInput;
+}
+
+function showMouseCoordinates(event) {
+  const coordinatesSpan = document.getElementById('coordinatesSpan');
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+  coordinatesSpan.innerText = 'X:' +mouseX+ ', Y:' + mouseY ;
+}
+
+const textInput = document.getElementById('textInput');
+const charCountSpan = document.getElementById('charCount');
+textInput.addEventListener('input', function() {
+  const text = textInput.value;
+  const charCount = text.length;
+  charCountSpan.innerText = charCount;
+});
+
+ function convert() {
+            const decimalNumber = parseInt(document.getElementById("decimalNumber").value);
+            if (!isNaN(decimalNumber)) {
+                const binaryResult = decimalNumber.toString(2);
+                const hexadecimalResult = decimalNumber.toString(16).toUpperCase();
+                document.getElementById("binaryResult").innerText = binaryResult;
+                document.getElementById("hexadecimalResult").innerText = hexadecimalResult;
+            } else {
+                alert("Invalid input. Please enter a valid decimal number.");
+            }
+        }
+
+
+
+  function validateForm() {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            if (name.trim() === '') {
+                alert("Please enter your name.");
+                return false;
+            }
+
+            if (email.trim() === '') {
+                alert("Please enter your email.");
+                return false;
+            } else if (!isValidEmail(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+
+            if (password.trim() === '') {
+                alert("Please enter a password.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function isValidEmail(email) {
+            // Basic email format validation using regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function enterFullscreen() {
+            const element = document.documentElement; // Get the root element (HTML document)
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) { // For Firefox
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) { // For Chrome, Safari, and Opera
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) { // For Internet Explorer and Edge
+                element.msRequestFullscreen();
+            }
+        }
+
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { // For Firefox
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { // For Chrome, Safari, and Opera
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { // For Internet Explorer and Edge
+                document.msExitFullscreen();
+            }
+        }
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === " ") {
+                alert("Thank You..!!");
+                window.close(); // Close the current window when spacebar is pressed
+            } else {
+                alert("Invalid Key Pressed");
+            }
+        });
+
+</script>
+
+ <style>
+        /* Add some basic styling to the editable content */
+        .editable-content {
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+    </style>
+</body>
+</html>
